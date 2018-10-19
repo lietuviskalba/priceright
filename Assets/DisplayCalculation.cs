@@ -1,8 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DisplayCalculation : MonoBehaviour {
+
+    public Text txtPrice;
+    public Text txtUserPayment;
+    public Text txtResult;
 
     private float price;//price
     private float minPrice;
@@ -20,6 +25,7 @@ public class DisplayCalculation : MonoBehaviour {
         maxUser = 25;
 
         GenerateRandomValues(minPrice, maxPrice, minUser, maxUser);
+        DisplayValues(price, userPays, CalculatePrice(price, userPays));
 
         Debug.Log(price + " - " + userPays + "Answer: " + CalculatePrice(price, userPays));
 	}
@@ -47,5 +53,12 @@ public class DisplayCalculation : MonoBehaviour {
             minUser += minUser; // incrament min user to make less looping
             userPays = Random.Range(minUser, maxUser); // generate new value
         }
+    }
+
+    void DisplayValues(float price, float userPayment, float result)
+    {
+        txtPrice.text = "Price: \n" + price.ToString();
+        txtUserPayment.text = "Payment: \n" + userPayment.ToString();
+        txtResult.text = "Result: \n" + result.ToString();
     }
 }
