@@ -9,6 +9,9 @@ public class DisplayCalculation : MonoBehaviour {
     public Text txtUserPayment;
     public Text txtResult;
 
+    public Button btnSum;
+    public Button btnNext;
+
     private float price;//price
     private float minPrice;
     private float maxPrice;
@@ -18,12 +21,10 @@ public class DisplayCalculation : MonoBehaviour {
     private float result;
 
 	void Start () {
-        //start off min and max values
-        minPrice = 0.99f;
-        maxPrice = 22.99f;
-        minUser = 2;
-        maxUser = 25;
+        txtResult.gameObject.SetActive(false);
+        btnNext.gameObject.SetActive(false);
 
+        MinMaxSetup(0.99f, 23.99f, 2, 25);
         GenerateRandomValues(minPrice, maxPrice, minUser, maxUser);
         DisplayValues(price, userPays, CalculatePrice(price, userPays));
 
@@ -33,7 +34,6 @@ public class DisplayCalculation : MonoBehaviour {
     float CalculatePrice(float price, float userPays)
     {
         result = price - userPays;
-
         return result;
     }
 
@@ -59,6 +59,31 @@ public class DisplayCalculation : MonoBehaviour {
     {
         txtPrice.text = "Price: \n" + price.ToString();
         txtUserPayment.text = "Payment: \n" + userPayment.ToString();
-        txtResult.text = "Result: \n" + result.ToString();
+        txtResult.text = string.Format("Result: \n {0:#0.00}", result);
+    }
+
+    void MinMaxSetup(float minP, float maxP, int minU, int maxU)
+    {
+        minPrice = minP;
+        maxPrice = maxP;
+        minUser = minU;
+        maxUser = maxU;
+    }
+
+    public void ShowResult()
+    {
+        txtResult.gameObject.SetActive(true);
+        btnSum.gameObject.SetActive(false);
+        btnNext.gameObject.SetActive(true);  
+    }
+
+    public void NextGame()
+    {
+        txtResult.gameObject.SetActive(false);
+        btnSum.gameObject.SetActive(true);
+        btnNext.gameObject.SetActive(false);
+
+        GenerateRandomValues(minPrice, maxPrice, minUser, maxUser);
+        DisplayValues(price, userPays, CalculatePrice(price, userPays));
     }
 }
